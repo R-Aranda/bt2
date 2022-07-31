@@ -5,7 +5,7 @@ class CreatePosts < ActiveRecord::Migration[5.2]
       t.string :body, null: false
 
       t.belongs_to :country, null: false, foreign_key: true
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

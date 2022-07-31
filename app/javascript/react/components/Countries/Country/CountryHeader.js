@@ -5,7 +5,7 @@ const CountryHeader = ({ attributes, posts }) => {
 
   return (
     <div>
-      <div>{name}</div>
+      <h2>{name}</h2>
     </div>
   );
 };

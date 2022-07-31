@@ -3,10 +3,13 @@ import React from "react";
 const PostsIndexContainer = ({ posts }) => {
   let postList = posts.map((post) => {
     return (
-      <li key={post.id}>
-        <h3>{post.attributes.title}</h3>
-        <p>{post.attributes.body}</p>
-      </li>
+      <div key={post.id}>
+        <div className="callout primary">
+          <h3 className="post-header">{post.attributes.title}</h3>
+          <p>{post.attributes.body}</p>
+          <p>{post.attributes.created_at}</p>
+        </div>
+      </div>
     );
   });
   return (

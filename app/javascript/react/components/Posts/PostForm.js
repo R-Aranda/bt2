@@ -3,8 +3,8 @@ import React from "react";
 const PostForm = ({ inputs, handleChange, handleSubmit }) => {
   // debugger;
   return (
-    <div className="grid-x grid-padding-x">
-      <div className="cell">
+    <div className="grid-x grid-padding-x align-center">
+      <div className="medium-8 cell">
         <div className="form-box">
           <form onSubmit={handleSubmit} className="post-form">
             <h2>Submit a new Post</h2>

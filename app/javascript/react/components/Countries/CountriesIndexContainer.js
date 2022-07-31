@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
 import CountryItem from "./CountryItem";
+import "./CountriesIndexContainer.scss";
 
 const CountriesIndexContainer = (props) => {
   const [countries, setCountries] = useState([]);
@@ -30,9 +31,11 @@ const CountriesIndexContainer = (props) => {
   });
 
   return (
-    <div>
-      <div>All Countries</div>
-      <div>{grid}</div>
+    <div className="grid-x grid-padding-x align-center">
+      <div className="cell small-8 medium-8 large-8 text-center ">
+        <h2>All Countries</h2>
+        <div>{grid}</div>
+      </div>
     </div>
   );
 };

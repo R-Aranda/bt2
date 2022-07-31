@@ -9,6 +9,7 @@ const CountryShowContainer = (props) => {
   const [country, setCountry] = useState({});
   const [posts, setPosts] = useState({});
   const [loaded, setLoaded] = useState(false);
+  const [errors, setErrors] = useState({});
   const [inputs, setInputs] = useState({
     title: "",
     body: "",
@@ -36,8 +37,6 @@ const CountryShowContainer = (props) => {
   }, []);
 
   const addPost = async (formInput) => {
-    // debugger;
-
     try {
       const response = await fetch(`/api/v1/posts`, {
         credentials: "same-origin",
@@ -49,11 +48,16 @@ const CountryShowContainer = (props) => {
         },
       });
       if (!response.ok) {
+        if (response.status == 422) {
+          const errorsData = await response.json();
+          setErrors(errorsData);
+        }
         const errorMessage = `${response.status} (${response.statusText})`;
         const error = new Error(errorMessage);
         throw error;
       }
       const newPost = await response.json();
+
       setPosts(posts.concat(newPost));
     } catch (err) {
       console.error(`Error in fetch ${err.message}`);
@@ -78,31 +82,46 @@ const CountryShowContainer = (props) => {
     });
   };
 
+  let errorList;
+  if (errors.error) {
+    errorList = errors.error.map((err) => {
+      return (
+        <ul>
+          <li>{err}</li>
+        </ul>
+      );
+    });
+  }
+
   return (
-    <div>
-      {loaded && (
-        <Fragment>
-          <div>
-            <CountryHeader
-              attributes={country.attributes}
-              posts={country.relationships.posts.data}
-            />
-          </div>
-          <div>
-            <PostForm
-              handleChange={handleChange}
-              handleSubmit={handleSubmit}
-              attributes={country.attributes}
-              inputs={inputs}
-            />
-          </div>
-          <div>
-            <ul>
-              <PostsIndexContainer posts={posts} />
-            </ul>
-          </div>
-        </Fragment>
-      )}
+    <div className="grid-x grid-padding-x">
+      <div className="cell small-12 medium-12 large-12 text-center">
+        {loaded && (
+          <Fragment>
+            <div>
+              <CountryHeader
+                attributes={country.attributes}
+                posts={country.relationships.posts.data}
+              />
+            </div>
+            <ul>{errorList}</ul>
+            <div>
+              <PostForm
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                attributes={country.attributes}
+                inputs={inputs}
+              />
+            </div>
+
+            <div className="all-posts">
+              <div>
+                <PostsIndexContainer posts={posts} />
+              </div>
+            </div>
+          </Fragment>
+        )}
+      </div>
     </div>
   );
 };

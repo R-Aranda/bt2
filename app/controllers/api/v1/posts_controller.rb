@@ -9,7 +9,7 @@ module Api
         if post.save
           render json: PostSerializer.new(post).serialized_json
         else
-          render json: { error: post.errors.messages }, status: 422
+          render json: { error: post.errors.full_messages }, status: 422
         end
       end
 
@@ -30,7 +30,7 @@ module Api
       end
 
       def post_params
-        params.permit(:title, :body, :country_id)
+        params.permit(:title, :body, :country_id, :created_at)
       end
     end
   end
